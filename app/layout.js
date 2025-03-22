@@ -3,6 +3,7 @@ import "./globals.css";
 import Navber from "./components/Navber";
 import { Weight } from "lucide";
 import Footer from "./components/Footer";
+import ToastCon from "@/Provider/ToastCon";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
       <body className={`${lato.className} antialiased`}>
+        <ToastCon />
         <Navber />
         {children}
         <Footer />

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const AddForm = () => {
   const [loading, setLoading] = useState(false);
-  const [imageURL, setImageURL] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +39,6 @@ const AddForm = () => {
       image: resJson.data.url, // Store uploaded image URL
     };
 
-    setImageURL(resJson.data.url);
-
     console.log("Submitting product:", productData);
 
     try {
@@ -55,9 +53,9 @@ const AddForm = () => {
       const data = await response.json();
       if (response.ok) {
         console.log("Product added:", data);
-        alert("Product added successfully!");
+        toast.success("Product added successfully!");
         form.reset();
-        setImageURL("");
+        setLoading(false);
       } else {
         console.error("Error:", data.error);
       }
@@ -72,7 +70,6 @@ const AddForm = () => {
         onSubmit={handleSubmit}
         className="w-full max-w-xl mx-auto flex flex-col justify-center items-center space-y-4 mt-3 md:mt-5"
       >
-        {imageURL && <img className="w-full" src={imageURL} alt="" srcset="" />}
         <div className="flex flex-col w-full">
           <label>Product Image: </label>
           <input

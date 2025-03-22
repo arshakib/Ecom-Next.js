@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/lib/mongodb";
-import product from "@/app/models/product";
+import Product from "@/app/models/Product";
 
 import { NextResponse } from "next/server";
 
@@ -16,7 +16,8 @@ export async function POST(req) {
     }
 
     await connectToDatabase();
-    const newProduct = await product.create({
+
+    const newProduct = await Product.create({
       name,
       price,
       description,
@@ -29,6 +30,32 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("❌ Server Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error", details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req) {
+  try {
+    await connectToDatabase();
+    console.log(req.url);
+    const { searchParams } = new URL(req.url);
+    const productId = searchParams.get("id");
+    if (!productId) {
+      const products = await Product.find().sort({ createdAt: -1 });
+      return NextResponse.json({ products }, { status: 200 });
+    } else {
+      const product = await Product.findById(productId);
+      return NextResponse.json({ product }, { status: 200 });
+    }
+  } catch (error) {
+    console.error("❌ Server Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error", details: error.message },
+      { status: 500 }
+    );
   }
 }
