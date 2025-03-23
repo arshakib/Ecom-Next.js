@@ -41,7 +41,6 @@ export async function POST(req) {
 export async function GET(req) {
   try {
     await connectToDatabase();
-    console.log(req.url);
     const { searchParams } = new URL(req.url);
     const productId = searchParams.get("id");
     if (!productId) {

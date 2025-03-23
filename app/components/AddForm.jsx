@@ -15,7 +15,6 @@ const AddForm = () => {
     const formData = new FormData();
     formData.append("image", image);
 
-    // Upload image to imgbb
     const res = await fetch(
       "https://api.imgbb.com/1/upload?key=90e8400173b8e420a6134c2a5baa3d33",
       {
@@ -36,7 +35,7 @@ const AddForm = () => {
       price: form.price.value,
       description: form.description.value,
       link: form.link.value,
-      image: resJson.data.url, // Store uploaded image URL
+      image: resJson.data.url,
     };
 
     console.log("Submitting product:", productData);
